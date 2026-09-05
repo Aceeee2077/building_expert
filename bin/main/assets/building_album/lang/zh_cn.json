@@ -1,0 +1,22 @@
+{
+  "key.building_album.toggle": "开关建筑预览",
+  "category.building_album": "建筑影册",
+  "message.building_album.enabled": "建筑影册：已开启",
+  "message.building_album.disabled": "建筑影册：已关闭",
+  "message.building_album.built": "蓝图已建造：%1$s 个方块",
+  "message.building_album.build_failed": "无法在这里建造",
+
+  "itemGroup.building_album.blueprints": "建筑蓝图",
+
+  "item.building_album.blueprint_cabin": "小屋蓝图",
+  "item.building_album.blueprint_watchtower": "瞭望塔蓝图",
+  "item.building_album.blueprint_altar": "祭坛蓝图",
+  "item.building_album.blueprint_fountain": "喷泉蓝图",
+  "item.building_album.blueprint_obelisk": "方尖碑蓝图",
+  "item.building_album.blueprint_pavilion": "凉亭蓝图",
+  "item.building_album.blueprint_campsite": "营地蓝图",
+
+  "item.building_album.blueprint.tooltip.size": "尺寸：%1$s × %2$s × %3$s",
+  "item.building_album.blueprint.tooltip.preview": "手持并瞄准地面可预览整栋建筑",
+  "item.building_album.blueprint.tooltip.build": "右键放置预览中的建筑"
+}

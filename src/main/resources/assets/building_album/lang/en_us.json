@@ -1,0 +1,22 @@
+{
+  "key.building_album.toggle": "Toggle structure preview",
+  "category.building_album": "Building Album",
+  "message.building_album.enabled": "Building Album: enabled",
+  "message.building_album.disabled": "Building Album: disabled",
+  "message.building_album.built": "Blueprint built: %1$s blocks",
+  "message.building_album.build_failed": "Cannot build here",
+
+  "itemGroup.building_album.blueprints": "Structure Blueprint",
+
+  "item.building_album.blueprint_cabin": "Cabin Blueprint",
+  "item.building_album.blueprint_watchtower": "Watchtower Blueprint",
+  "item.building_album.blueprint_altar": "Altar Blueprint",
+  "item.building_album.blueprint_fountain": "Fountain Blueprint",
+  "item.building_album.blueprint_obelisk": "Obelisk Blueprint",
+  "item.building_album.blueprint_pavilion": "Pavilion Blueprint",
+  "item.building_album.blueprint_campsite": "Campsite Blueprint",
+
+  "item.building_album.blueprint.tooltip.size": "Size: %1$s x %2$s x %3$s",
+  "item.building_album.blueprint.tooltip.preview": "Aim at the ground while holding to preview the whole structure",
+  "item.building_album.blueprint.tooltip.build": "Right-click to build the previewed structure"
+}

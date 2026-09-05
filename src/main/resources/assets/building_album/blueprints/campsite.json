@@ -1,0 +1,26 @@
+{
+  "size": {"x":5,"y":1,"z":5},
+  "blocks": [
+    {"x":0,"y":0,"z":0,"block":"minecraft:stone_bricks"},
+    {"x":0,"y":0,"z":1,"block":"minecraft:stone_bricks"},
+    {"x":0,"y":0,"z":2,"block":"minecraft:stone_bricks"},
+    {"x":0,"y":0,"z":3,"block":"minecraft:stone_bricks"},
+    {"x":0,"y":0,"z":4,"block":"minecraft:stone_bricks"},
+    {"x":1,"y":0,"z":0,"block":"minecraft:stone_bricks"},
+    {"x":1,"y":0,"z":1,"block":"minecraft:oak_log","properties":{"axis":"x"}},
+    {"x":1,"y":0,"z":3,"block":"minecraft:oak_log","properties":{"axis":"x"}},
+    {"x":1,"y":0,"z":4,"block":"minecraft:stone_bricks"},
+    {"x":2,"y":0,"z":0,"block":"minecraft:stone_bricks"},
+    {"x":2,"y":0,"z":2,"block":"minecraft:campfire"},
+    {"x":2,"y":0,"z":4,"block":"minecraft:stone_bricks"},
+    {"x":3,"y":0,"z":0,"block":"minecraft:stone_bricks"},
+    {"x":3,"y":0,"z":1,"block":"minecraft:oak_log","properties":{"axis":"x"}},
+    {"x":3,"y":0,"z":3,"block":"minecraft:oak_log","properties":{"axis":"x"}},
+    {"x":3,"y":0,"z":4,"block":"minecraft:stone_bricks"},
+    {"x":4,"y":0,"z":0,"block":"minecraft:stone_bricks"},
+    {"x":4,"y":0,"z":1,"block":"minecraft:stone_bricks"},
+    {"x":4,"y":0,"z":2,"block":"minecraft:stone_bricks"},
+    {"x":4,"y":0,"z":3,"block":"minecraft:stone_bricks"},
+    {"x":4,"y":0,"z":4,"block":"minecraft:stone_bricks"}
+  ]
+}

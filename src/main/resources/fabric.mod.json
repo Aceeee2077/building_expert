@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "building_album",
+  "version": "${version}",
+  "name": "建筑影册",
+  "description": "创造模式新增“建筑蓝图”标签页：手持蓝图瞄准地面即可预览整座建筑的半透明模型。",
+  "authors": ["Building Album contributors"],
+  "contact": {},
+  "license": "MIT",
+  "entrypoints": {
+    "main": [
+      "com.example.buildingalbum.BuildingAlbum"
+    ],
+    "client": [
+      "com.example.buildingalbum.BuildingAlbumClient"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.14.21",
+    "minecraft": "~1.20.1",
+    "java": ">=17",
+    "fabric-api": "*"
+  }
+}
