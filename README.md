@@ -61,7 +61,7 @@
 .\gradlew.bat runClient  # 启动开发环境客户端
 ```
 
-## 安装
+## 安装指南
 
 1. 安装 Minecraft 1.20.1 对应的 Fabric Loader。
 2. 下载 1.20.1 对应的 Fabric API。
