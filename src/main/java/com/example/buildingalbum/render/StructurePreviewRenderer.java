@@ -65,14 +65,17 @@ public final class StructurePreviewRenderer {
             matrices.pop();
         }
 
-        // 整体外框（稍微外扩避免 z-fighting）。
+        // 整体外框（稍微外扩避免 z-fighting）；会覆盖已有方块时改为红色警示。
         BlockPos size = placement.structure().size();
         VertexConsumer lines = consumers.getBuffer(RenderLayer.getLines());
         float edge = config.edgeOpacity;
+        boolean overlapping = placement.overwrites() > 0;
         WorldRenderer.drawBox(matrices, lines,
                 -0.003D, -0.003D, -0.003D,
                 size.getX() + 0.003D, size.getY() + 0.003D, size.getZ() + 0.003D,
-                0.35F, 0.90F, 1.00F, edge);
+                overlapping ? 1.00F : 0.35F,
+                overlapping ? 0.35F : 0.90F,
+                overlapping ? 0.35F : 1.00F, edge);
 
         matrices.pop();
         return true;

@@ -2,6 +2,7 @@ package com.example.buildingalbum.structure;
 
 import com.example.buildingalbum.client.ClientRotation;
 import com.example.buildingalbum.item.BlueprintItem;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.WorldRenderer;
@@ -70,11 +71,17 @@ public final class StructurePlacementResolver {
                 StructurePlacementMath.compute(structure, anchor, rotation, world.getBottomY(), world.getTopY());
 
         List<StructurePlacement.Entry> entries = new ArrayList<>(placed.size());
+        int overwrites = 0;
         for (StructurePlacementMath.PlacedBlock block : placed) {
             int light = WorldRenderer.getLightmapCoordinates(world, block.pos());
             entries.add(new StructurePlacement.Entry(block.pos(), block.state(), light));
+
+            BlockState existing = world.getBlockState(block.pos());
+            if (!existing.isAir() && !existing.equals(block.state())) {
+                overwrites++;
+            }
         }
-        return new StructurePlacement(structure, anchor, rotation, List.copyOf(entries));
+        return new StructurePlacement(structure, anchor, rotation, List.copyOf(entries), overwrites);
     }
 
     /** 进入或退出世界时清空缓存，避免沿用上个世界的方块光照数据。 */

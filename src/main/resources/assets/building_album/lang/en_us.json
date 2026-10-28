@@ -7,10 +7,14 @@
   "message.building_album.rotation": "Blueprint rotation: %1$s°",
   "message.building_album.built": "Blueprint built: %1$s blocks",
   "message.building_album.build_failed": "Cannot build here",
+  "message.building_album.overlap": "Preview will overwrite %1$s block(s)",
 
   "command.building_album.undo.success": "Undid %1$s build(s): restored %2$s blocks, %3$s undo(s) left",
   "command.building_album.undo.empty": "Nothing to undo",
   "command.building_album.undo.players_only": "Only a player can undo a build",
+
+  "command.building_album.list.header": "Registered blueprints (%1$s):",
+  "command.building_album.list.entry": " - %1$s: %2$s x %3$s x %4$s",
 
   "itemGroup.building_album.blueprints": "Structure Blueprint",
 

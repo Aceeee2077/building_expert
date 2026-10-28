@@ -3,8 +3,8 @@ package com.example.buildingalbum;
 import com.example.buildingalbum.item.BlueprintItem;
 import com.example.buildingalbum.network.BuildingAlbumNetworking;
 import com.example.buildingalbum.server.BlueprintRotation;
+import com.example.buildingalbum.server.BuildingAlbumCommands;
 import com.example.buildingalbum.server.BuildHistory;
-import com.example.buildingalbum.server.BuildHistoryCommands;
 import com.example.buildingalbum.structure.Structure;
 import com.example.buildingalbum.structure.StructureLoader;
 import net.fabricmc.api.ModInitializer;
@@ -116,7 +116,7 @@ public final class BuildingAlbum implements ModInitializer {
         }
 
         registerItemGroup();
-        BuildHistoryCommands.register();
+        BuildingAlbumCommands.register();
         BuildingAlbumNetworking.registerServer();
 
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) ->

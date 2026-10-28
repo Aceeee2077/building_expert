@@ -6,6 +6,7 @@ import com.example.buildingalbum.config.GhostConfig;
 import com.example.buildingalbum.network.BuildingAlbumNetworking;
 import com.example.buildingalbum.render.GhostBlockRenderer;
 import com.example.buildingalbum.render.StructurePreviewRenderer;
+import com.example.buildingalbum.structure.StructurePlacement;
 import com.example.buildingalbum.structure.StructurePlacementResolver;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -18,6 +19,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import org.lwjgl.glfw.GLFW;
 
 /** 建筑影册的纯客户端入口。 */
@@ -27,6 +29,11 @@ public final class BuildingAlbumClient implements ClientModInitializer {
     private static GhostConfig config;
     private static KeyBinding toggleKey;
     private static KeyBinding rotateKey;
+
+    /** 上一次通过动作栏提示的覆盖数量；-1 表示当前没有覆盖。 */
+    private static int lastOverlapHint = -1;
+    /** 覆盖提示的冷却（tick），避免瞄准移动时每 tick 刷屏。 */
+    private static int overlapHintCooldown;
 
     @Override
     public void onInitializeClient() {
@@ -96,6 +103,39 @@ public final class BuildingAlbumClient implements ClientModInitializer {
         while (rotateKey.wasPressed()) {
             requestRotation(client);
         }
+
+        updateOverlapHint(client);
+    }
+
+    /**
+     * 预览会覆盖已有方块时，在动作栏提示数量（外框同时变红）。
+     * 只在数量变化时提示，并保留 10 tick 冷却，避免连续刷屏。
+     */
+    private static void updateOverlapHint(MinecraftClient client) {
+        if (overlapHintCooldown > 0) {
+            overlapHintCooldown--;
+        }
+
+        if (!config.enabled || client.player == null) {
+            lastOverlapHint = -1;
+            return;
+        }
+
+        StructurePlacement placement = StructurePlacementResolver.resolve(client);
+        int overwrites = placement == null ? 0 : placement.overwrites();
+        if (overwrites == 0) {
+            lastOverlapHint = -1;
+            return;
+        }
+
+        if (overwrites == lastOverlapHint || overlapHintCooldown > 0) {
+            return;
+        }
+
+        lastOverlapHint = overwrites;
+        overlapHintCooldown = 10;
+        client.player.sendMessage(Text.translatable(
+                "message.building_album.overlap", overwrites).formatted(Formatting.YELLOW), true);
     }
 
     /** 本地先转 90° 让预览立即响应，再请服务端确认最终角度。 */

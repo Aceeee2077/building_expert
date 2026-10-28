@@ -11,7 +11,11 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.BlockRotation;
@@ -29,6 +33,8 @@ import java.util.List;
  * 用户自建蓝图直接传入美化后的名字。
  */
 public class BlueprintItem extends Item {
+    private static final int MAX_BUILD_PARTICLES = 24;
+
     private final Structure structure;
     private final Text displayName;
 
@@ -76,11 +82,35 @@ public class BlueprintItem extends Item {
                         world.getRegistryKey(), structure.id(), result.changes()));
             }
 
+            if (world instanceof ServerWorld serverWorld) {
+                playBuildEffects(serverWorld, origin, result.changes());
+            }
+
             player.sendMessage(Text.translatable("message.building_album.built", result.placed()), true);
             return ActionResult.SUCCESS;
         }
         player.sendMessage(Text.translatable("message.building_album.build_failed"), true);
         return ActionResult.FAIL;
+    }
+
+    /** 建造完成音效 + 抽样粒子（大建筑最多 24 处，避免一次刷出上百个粒子）。 */
+    private static void playBuildEffects(
+            ServerWorld world, BlockPos origin, List<BuildRecord.BlockChange> changes) {
+        world.playSound(null, origin, SoundEvents.BLOCK_STONE_PLACE,
+                SoundCategory.BLOCKS, 0.8F, 0.9F);
+
+        if (changes.isEmpty()) {
+            return;
+        }
+
+        int step = Math.max(1, changes.size() / MAX_BUILD_PARTICLES);
+        int spawned = 0;
+        for (int i = 0; i < changes.size() && spawned < MAX_BUILD_PARTICLES; i += step, spawned++) {
+            BlockPos pos = changes.get(i).pos();
+            world.spawnParticles(ParticleTypes.HAPPY_VILLAGER,
+                    pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D,
+                    1, 0.3D, 0.3D, 0.3D, 0.0D);
+        }
     }
 
     @Override

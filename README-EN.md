@@ -13,7 +13,7 @@ When holding a blueprint and aiming at the ground or a block face, the mod displ
 * When holding a blueprint and aiming at a block surface, the entire building is shown as a preview:
 
   * Blocks are rendered semi-transparently.
-  * A cyan outline is drawn around the blocks.
+  * A cyan outline is drawn around the blocks. If the preview would overwrite existing non-air blocks, the outline turns red and the action bar reports how many blocks would be overwritten (only when the count changes, with a short cooldown so it does not spam every tick).
   * The structure rotates in 90° increments according to the player's facing direction.
   * By default, the structure's **front side** — the `+Z` side in the JSON file — faces toward the player.
 
@@ -27,6 +27,7 @@ When holding a blueprint and aiming at the ground or a block face, the mod displ
   * The player's inventory is not checked.
   * Placement is executed server-side.
   * Existing blocks in the target area may be overwritten directly.
+  * A placement sound plays on success, and a few particles (at most 24 spots) are scattered over the finished build.
 
 * When holding a normal `BlockItem`, the existing single-block ghost placement preview remains unchanged.
 
@@ -44,6 +45,14 @@ The previous state of every overwritten block is recorded, so builds can be reve
 * Only block states are restored; container contents, sign text and other block-entity data are not.
 * Undo overwrites whatever is currently at those positions, including changes made after the build.
 * Players can only undo their own builds. Records for dimensions that no longer exist are skipped.
+
+## Listing Blueprints
+
+```text
+/buildingalbum list
+```
+
+Lists every registered blueprint (built-in and user) sorted by structure id, together with its size (X × Y × Z). Available to both players and the console.
 
 ## Where Blueprints Come From
 

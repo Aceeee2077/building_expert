@@ -7,10 +7,14 @@
   "message.building_album.rotation": "蓝图旋转：%1$s°",
   "message.building_album.built": "蓝图已建造：%1$s 个方块",
   "message.building_album.build_failed": "无法在这里建造",
+  "message.building_album.overlap": "预览将覆盖 %1$s 个方块",
 
   "command.building_album.undo.success": "已撤销 %1$s 次建造：恢复 %2$s 个方块，剩余 %3$s 次可撤销",
   "command.building_album.undo.empty": "没有可撤销的建造",
   "command.building_album.undo.players_only": "只有玩家可以撤销建造",
+
+  "command.building_album.list.header": "已注册蓝图（%1$s）：",
+  "command.building_album.list.entry": " - %1$s：%2$s × %3$s × %4$s",
 
   "itemGroup.building_album.blueprints": "建筑蓝图",
 
