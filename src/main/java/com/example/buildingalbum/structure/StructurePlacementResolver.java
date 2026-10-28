@@ -1,5 +1,6 @@
 package com.example.buildingalbum.structure;
 
+import com.example.buildingalbum.client.ClientRotation;
 import com.example.buildingalbum.item.BlueprintItem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -47,7 +48,8 @@ public final class StructurePlacementResolver {
         Structure structure = item.getStructure();
 
         BlockPos anchor = StructurePlacementMath.anchorOf(hit.getBlockPos(), hit.getSide());
-        BlockRotation rotation = StructurePlacementMath.rotationFor(player.getHorizontalFacing());
+        BlockRotation rotation = StructurePlacementMath.rotationFor(
+                player.getHorizontalFacing(), ClientRotation.get());
 
         if (cached != null && cachedItem == item
                 && cachedAnchor.equals(anchor) && cachedRotation == rotation) {
@@ -73,6 +75,14 @@ public final class StructurePlacementResolver {
             entries.add(new StructurePlacement.Entry(block.pos(), block.state(), light));
         }
         return new StructurePlacement(structure, anchor, rotation, List.copyOf(entries));
+    }
+
+    /** 进入或退出世界时清空缓存，避免沿用上个世界的方块光照数据。 */
+    public static void clearCache() {
+        cached = null;
+        cachedItem = null;
+        cachedAnchor = null;
+        cachedRotation = null;
     }
 
     private static Hand findBlueprintHand(ClientPlayerEntity player) {

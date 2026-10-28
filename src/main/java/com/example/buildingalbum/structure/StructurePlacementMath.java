@@ -43,11 +43,31 @@ public final class StructurePlacementMath {
 
     /** 结构与预览/建造共用的朝向规则：结构默认 +Z 为正面，让正面朝向玩家。 */
     public static BlockRotation rotationFor(Direction facing) {
-        return switch (facing) {
+        return rotationFor(facing, 0);
+    }
+
+    /**
+     * 在“正面朝向玩家”的基础上，再按玩家手动偏移旋转。
+     *
+     * @param extraQuarterTurns 额外顺时针 90° 的次数（0–3，超出自动取模）
+     */
+    public static BlockRotation rotationFor(Direction facing, int extraQuarterTurns) {
+        BlockRotation base = switch (facing) {
             case NORTH -> BlockRotation.NONE;
             case EAST -> BlockRotation.CLOCKWISE_90;
             case SOUTH -> BlockRotation.CLOCKWISE_180;
             case WEST -> BlockRotation.COUNTERCLOCKWISE_90;
+            default -> BlockRotation.NONE;
+        };
+        return base.rotate(quarterTurn(extraQuarterTurns));
+    }
+
+    /** 0–3 个 90° 偏移换算成 BlockRotation。 */
+    public static BlockRotation quarterTurn(int steps) {
+        return switch (Math.floorMod(steps, 4)) {
+            case 1 -> BlockRotation.CLOCKWISE_90;
+            case 2 -> BlockRotation.CLOCKWISE_180;
+            case 3 -> BlockRotation.COUNTERCLOCKWISE_90;
             default -> BlockRotation.NONE;
         };
     }

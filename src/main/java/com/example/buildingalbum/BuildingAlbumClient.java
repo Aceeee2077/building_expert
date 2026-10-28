@@ -1,13 +1,19 @@
 package com.example.buildingalbum;
 
 import com.example.buildingalbum.client.BlueprintModelPlugin;
+import com.example.buildingalbum.client.ClientRotation;
 import com.example.buildingalbum.config.GhostConfig;
+import com.example.buildingalbum.network.BuildingAlbumNetworking;
 import com.example.buildingalbum.render.GhostBlockRenderer;
 import com.example.buildingalbum.render.StructurePreviewRenderer;
+import com.example.buildingalbum.structure.StructurePlacementResolver;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
@@ -20,6 +26,7 @@ public final class BuildingAlbumClient implements ClientModInitializer {
 
     private static GhostConfig config;
     private static KeyBinding toggleKey;
+    private static KeyBinding rotateKey;
 
     @Override
     public void onInitializeClient() {
@@ -32,6 +39,37 @@ public final class BuildingAlbumClient implements ClientModInitializer {
                 GLFW.GLFW_KEY_G,
                 "category.building_album"
         ));
+
+        rotateKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key.building_album.rotate",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_R,
+                "category.building_album"
+        ));
+
+        // 服务端返回权威旋转偏移；预览与真实建造都以它为准。
+        ClientPlayNetworking.registerGlobalReceiver(
+                BuildingAlbumNetworking.ROTATE_SYNC,
+                (client, handler, buf, responseSender) -> {
+                    int offset = buf.readByte();
+                    client.execute(() -> {
+                        ClientRotation.set(offset);
+
+                        if (client.player != null) {
+                            client.player.sendMessage(Text.translatable(
+                                    "message.building_album.rotation", offset * 90), true);
+                        }
+                    });
+                });
+
+        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
+            ClientRotation.reset();
+            StructurePlacementResolver.clearCache();
+        });
+        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
+            ClientRotation.reset();
+            StructurePlacementResolver.clearCache();
+        });
 
         ClientTickEvents.END_CLIENT_TICK.register(BuildingAlbumClient::onEndTick);
         // 此阶段拥有实体缓冲区，半透明模型和线框会随本帧一起正确提交。
@@ -54,6 +92,28 @@ public final class BuildingAlbumClient implements ClientModInitializer {
                         : "message.building_album.disabled"), true);
             }
         }
+
+        while (rotateKey.wasPressed()) {
+            requestRotation(client);
+        }
+    }
+
+    /** 本地先转 90° 让预览立即响应，再请服务端确认最终角度。 */
+    private static void requestRotation(MinecraftClient client) {
+        if (client.getNetworkHandler() == null) {
+            return;
+        }
+
+        try {
+            if (!ClientPlayNetworking.canSend(BuildingAlbumNetworking.ROTATE_REQUEST)) {
+                return;
+            }
+        } catch (IllegalArgumentException | IllegalStateException exception) {
+            return;
+        }
+
+        ClientRotation.set(ClientRotation.get() + 1);
+        ClientPlayNetworking.send(BuildingAlbumNetworking.ROTATE_REQUEST, PacketByteBufs.empty());
     }
 
     public static GhostConfig getConfig() {

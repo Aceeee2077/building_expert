@@ -1,5 +1,6 @@
 package com.example.buildingalbum.item;
 
+import com.example.buildingalbum.server.BlueprintRotation;
 import com.example.buildingalbum.server.BuildHistory;
 import com.example.buildingalbum.structure.BuildRecord;
 import com.example.buildingalbum.structure.Structure;
@@ -64,7 +65,8 @@ public class BlueprintItem extends Item {
         }
 
         BlockPos origin = StructurePlacementMath.anchorOf(context.getBlockPos(), context.getSide());
-        BlockRotation rotation = StructurePlacementMath.rotationFor(player.getHorizontalFacing());
+        BlockRotation rotation = StructurePlacementMath.rotationFor(
+                player.getHorizontalFacing(), BlueprintRotation.get(player.getUuid()));
 
         StructureBuilder.Result result = StructureBuilder.place(world, structure, origin, rotation);
 
@@ -87,6 +89,7 @@ public class BlueprintItem extends Item {
                 structure.size().getX(), structure.size().getY(), structure.size().getZ())
                 .formatted(Formatting.GRAY));
         tooltip.add(Text.translatable("item.building_album.blueprint.tooltip.preview").formatted(Formatting.GRAY));
+        tooltip.add(Text.translatable("item.building_album.blueprint.tooltip.rotate").formatted(Formatting.GRAY));
         tooltip.add(Text.translatable("item.building_album.blueprint.tooltip.build").formatted(Formatting.GRAY));
     }
 }

@@ -4,7 +4,7 @@ A **Fabric 1.20.1** mod that adds a new **“Structure Blueprint”** tab to the
 
 When holding a blueprint and aiming at the ground or a block face, the mod displays a semi-transparent preview of the entire structure. **Right-click to place the actual building** into the world.
 
-> Compatibility preserved: when holding a normal block, the vanilla-style single-block placement preview is still displayed with a cyan outline and a semi-transparent ghost block. Press `G` to toggle all previews on or off.
+> Compatibility preserved: when holding a normal block, the vanilla-style single-block placement preview is still displayed with a cyan outline and a semi-transparent ghost block. Press `G` to toggle all previews on or off, and press `R` to rotate the blueprint preview by 90°.
 
 ## Behavior
 
@@ -18,6 +18,8 @@ When holding a blueprint and aiming at the ground or a block face, the mod displ
   * By default, the structure's **front side** — the `+Z` side in the JSON file — faces toward the player.
 
 * The preview and actual placement use the exact same coordinate transformation logic. Wherever the preview appears is exactly where the structure will be placed after right-clicking.
+
+* Press `R` (`Controls → Building Album`, rebindable) to add a 90° rotation on top of the facing-based rotation. Each press advances 0° → 90° → 180° → 270° and wraps around. The offset is stored per player on the server and synced to the client, so the preview and the placed structure always agree. It resets when the player disconnects.
 
 * Building placement is currently **free**:
 
