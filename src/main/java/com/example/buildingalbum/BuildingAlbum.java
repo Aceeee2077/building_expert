@@ -1,11 +1,14 @@
 package com.example.buildingalbum;
 
 import com.example.buildingalbum.item.BlueprintItem;
+import com.example.buildingalbum.server.BuildHistory;
+import com.example.buildingalbum.server.BuildHistoryCommands;
 import com.example.buildingalbum.structure.Structure;
 import com.example.buildingalbum.structure.StructureLoader;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -111,6 +114,10 @@ public final class BuildingAlbum implements ModInitializer {
         }
 
         registerItemGroup();
+        BuildHistoryCommands.register();
+        ServerPlayConnectionEvents.DISCONNECT.register((handler, server) ->
+                BuildHistory.forget(handler.player.getUuid()));
+
         LOGGER.info("[Building Album] Registered {} blueprint(s): {}", BLUEPRINTS.size(), BLUEPRINTS.keySet());
     }
 

@@ -1,5 +1,7 @@
 package com.example.buildingalbum.item;
 
+import com.example.buildingalbum.server.BuildHistory;
+import com.example.buildingalbum.structure.BuildRecord;
 import com.example.buildingalbum.structure.Structure;
 import com.example.buildingalbum.structure.StructureBuilder;
 import com.example.buildingalbum.structure.StructurePlacementMath;
@@ -8,6 +10,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.BlockRotation;
@@ -63,9 +66,15 @@ public class BlueprintItem extends Item {
         BlockPos origin = StructurePlacementMath.anchorOf(context.getBlockPos(), context.getSide());
         BlockRotation rotation = StructurePlacementMath.rotationFor(player.getHorizontalFacing());
 
-        int placed = StructureBuilder.place(world, structure, origin, rotation);
-        if (placed > 0) {
-            player.sendMessage(Text.translatable("message.building_album.built", placed), true);
+        StructureBuilder.Result result = StructureBuilder.place(world, structure, origin, rotation);
+
+        if (result.placed() > 0) {
+            if (player instanceof ServerPlayerEntity serverPlayer) {
+                BuildHistory.record(serverPlayer, new BuildRecord(
+                        world.getRegistryKey(), structure.id(), result.changes()));
+            }
+
+            player.sendMessage(Text.translatable("message.building_album.built", result.placed()), true);
             return ActionResult.SUCCESS;
         }
         player.sendMessage(Text.translatable("message.building_album.build_failed"), true);

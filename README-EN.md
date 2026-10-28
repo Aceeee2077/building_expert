@@ -28,6 +28,21 @@ When holding a blueprint and aiming at the ground or a block face, the mod displ
 
 * When holding a normal `BlockItem`, the existing single-block ghost placement preview remains unchanged.
 
+## Undoing a Build
+
+The previous state of every overwritten block is recorded, so builds can be reverted:
+
+```text
+/buildingalbum undo          # undo the most recent build
+/buildingalbum undo 3        # undo the last three builds
+```
+
+* Each player keeps the last **8** builds, restored newest-first.
+* History lives in server memory only and is cleared when the server restarts.
+* Only block states are restored; container contents, sign text and other block-entity data are not.
+* Undo overwrites whatever is currently at those positions, including changes made after the build.
+* Players can only undo their own builds. Records for dimensions that no longer exist are skipped.
+
 ## Where Blueprints Come From
 
 When the mod starts, blueprints are registered in the following order:

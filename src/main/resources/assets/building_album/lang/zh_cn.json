@@ -6,6 +6,10 @@
   "message.building_album.built": "蓝图已建造：%1$s 个方块",
   "message.building_album.build_failed": "无法在这里建造",
 
+  "command.building_album.undo.success": "已撤销 %1$s 次建造：恢复 %2$s 个方块，剩余 %3$s 次可撤销",
+  "command.building_album.undo.empty": "没有可撤销的建造",
+  "command.building_album.undo.players_only": "只有玩家可以撤销建造",
+
   "itemGroup.building_album.blueprints": "建筑蓝图",
 
   "item.building_album.blueprint_cabin": "小屋蓝图",

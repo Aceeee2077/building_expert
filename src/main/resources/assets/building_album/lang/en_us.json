@@ -6,6 +6,10 @@
   "message.building_album.built": "Blueprint built: %1$s blocks",
   "message.building_album.build_failed": "Cannot build here",
 
+  "command.building_album.undo.success": "Undid %1$s build(s): restored %2$s blocks, %3$s undo(s) left",
+  "command.building_album.undo.empty": "Nothing to undo",
+  "command.building_album.undo.players_only": "Only a player can undo a build",
+
   "itemGroup.building_album.blueprints": "Structure Blueprint",
 
   "item.building_album.blueprint_cabin": "Cabin Blueprint",
