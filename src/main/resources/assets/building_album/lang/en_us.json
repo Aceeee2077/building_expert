@@ -16,6 +16,23 @@
   "command.building_album.list.header": "Registered blueprints (%1$s):",
   "command.building_album.list.entry": " - %1$s: %2$s x %3$s x %4$s",
 
+  "command.building_album.pos.players_only": "Only a player can set a selection corner",
+  "command.building_album.pos.no_target": "Look at a block within 64 blocks first",
+  "command.building_album.pos.set": "Corner %1$s set: %2$s, %3$s, %4$s",
+  "command.building_album.pos.ready": "Both corners set. Use /buildingalbum save <name> to save the blueprint",
+
+  "command.building_album.save.players_only": "Only a player can save a blueprint",
+  "command.building_album.save.no_selection": "Set both corners first with /buildingalbum pos1 and /buildingalbum pos2",
+  "command.building_album.save.invalid_name": "Invalid blueprint name (letters, digits, underscore, dot and hyphen only)",
+  "command.building_album.save.name_taken": "The name %1$s is already taken by an existing blueprint",
+  "command.building_album.save.exists": "File already exists: %1$s (it will not be overwritten)",
+  "command.building_album.save.too_large": "Selection too large: %1$s blocks (limit %2$s)",
+  "command.building_album.save.dimension_missing": "The dimension of the selection no longer exists",
+  "command.building_album.save.empty": "The selection contains no blocks to save",
+  "command.building_album.save.success": "Saved blueprint %1$s: %2$s blocks, size %3$s x %4$s x %5$s",
+  "command.building_album.save.path": "File: %1$s (takes effect after restarting the game/server)",
+  "command.building_album.save.failed": "Saving failed: %1$s",
+
   "itemGroup.building_album.blueprints": "Structure Blueprint",
 
   "item.building_album.blueprint_cabin": "Cabin Blueprint",

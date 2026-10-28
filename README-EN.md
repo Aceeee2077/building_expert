@@ -134,6 +134,24 @@ When the mod starts, blueprints are registered in the following order:
 
   These files can be used as reference examples when creating custom blueprints.
 
+### Saving a Build from the World
+
+You do not have to write JSON by hand: select a region in game and export it (`save` requires operator permission, which single-player Creative satisfies by default):
+
+```text
+/buildingalbum pos1     # set the first corner to the block you are looking at (max 64 blocks away)
+/buildingalbum pos2     # set the second corner the same way
+/buildingalbum save my_house
+```
+
+* Both corners must be in the same dimension; changing dimensions clears the selection.
+* The file is written to `config/building_album/blueprints/<name>.json` in exactly the manual blueprint format.
+* **Restart the game/server** and the new blueprint appears in the Creative tab (item id `building_album:blueprint_<name>`).
+* Only non-air blocks are saved, up to **32768** blocks (32×32×32) per capture. Air cells are skipped, so blueprints are additive: placing one does not clear existing blocks or air at the target.
+* Only block states are captured. Container contents, sign text and other block-entity data are not saved.
+* Existing files and existing blueprint names are never overwritten; delete the old file manually if you want to replace it.
+* On a dedicated server the file lands in the server's config directory; clients also need the same file to see and use that blueprint.
+
 ## Configuration
 
 On first launch, the mod generates:

@@ -3,6 +3,7 @@ package com.example.buildingalbum;
 import com.example.buildingalbum.item.BlueprintItem;
 import com.example.buildingalbum.network.BuildingAlbumNetworking;
 import com.example.buildingalbum.server.BlueprintRotation;
+import com.example.buildingalbum.server.BlueprintSelection;
 import com.example.buildingalbum.server.BuildingAlbumCommands;
 import com.example.buildingalbum.server.BuildHistory;
 import com.example.buildingalbum.structure.Structure;
@@ -125,6 +126,7 @@ public final class BuildingAlbum implements ModInitializer {
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
             BuildHistory.forget(handler.player.getUuid());
             BlueprintRotation.forget(handler.player.getUuid());
+            BlueprintSelection.forget(handler.player.getUuid());
         });
 
         LOGGER.info("[Building Album] Registered {} blueprint(s): {}", BLUEPRINTS.size(), BLUEPRINTS.keySet());
